@@ -12,10 +12,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserProductService {
-
-    private final UserProductDao userProductDao;
-
     private static final Logger log = LoggerFactory.getLogger(UserProductService.class.getName());
+    private final UserProductDao userProductDao;
 
     @Autowired
     public UserProductService(UserProductDao userProductDao) {
@@ -28,7 +26,7 @@ public class UserProductService {
         log.info("Продукт {} добавлен в БД для пользователя с id: {}", userProduct.getType(), userProduct.getUserId());
     }
 
-    public UserProductDto getUserProductById (Long id) {
+    public UserProductDto getUserProductById(Long id) {
         final UserProduct userProductById = userProductDao.getUserProductById(id);
         return UserProductDto.toUserProductDto(userProductById);
     }

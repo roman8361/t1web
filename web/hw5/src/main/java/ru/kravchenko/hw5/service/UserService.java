@@ -10,9 +10,8 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private final UserDao userDao;
-
     private static final Logger log = LoggerFactory.getLogger(UserService.class.getName());
+    private final UserDao userDao;
 
     @Autowired
     public UserService(UserDao userDao) {
@@ -27,23 +26,22 @@ public class UserService {
     public User getUserById(Long userId) {
         final User userById = userDao.getUserById(userId);
         log.info("Пользователь {} получен из БД по id {}", userById.getUsername(), userId);
-//        System.out.println("Пользователь " + userById.getUsername() + " получен из БД по id " + userId);
         return userById;
     }
 
     public List<User> getAllUsers() {
         final List<User> allUsers = userDao.getAllUsers();
-//        System.out.println(allUsers.size() + " пользователей в БД");
+        log.info("{} пользователей в БД", allUsers.size());
         return allUsers;
     }
 
     public void updateUser(User user) {
         userDao.updateUser(user);
-//        System.out.println("Пользователь с id: " + user.getId() + " обновлён");
+        log.info("Пользователь с id: {} обновлён", user.getId());
     }
 
     public void deleteUser(Long userId) {
         userDao.deleteUser(userId);
-//        System.out.println("Пользователь с id: " + userId + " удалён из БД");
+        log.info("Пользователь с id: {} удалён из БД", userId);
     }
 }

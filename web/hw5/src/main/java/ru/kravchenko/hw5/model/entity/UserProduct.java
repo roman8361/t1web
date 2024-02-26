@@ -10,10 +10,6 @@ public class UserProduct {
     private Integer balance;
     private String type;
 
-    public static UserProduct toUserProduct(UserProductDto dto) {
-        return new UserProduct(dto.getId(), dto.getUserId(), dto.getCount(), dto.getBalance(), dto.getType());
-    }
-
     public UserProduct() {
     }
 
@@ -63,5 +59,9 @@ public class UserProduct {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public static UserProduct toUserProduct(UserProductDto dto) {
+        return new UserProduct(dto.getId(), dto.getUserId(), dto.getCount(), dto.getBalance(), dto.getType());
     }
 }
