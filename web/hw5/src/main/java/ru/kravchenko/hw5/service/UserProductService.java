@@ -3,6 +3,7 @@ package ru.kravchenko.hw5.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.Literal;
 import org.springframework.stereotype.Service;
 import ru.kravchenko.hw5.model.dto.UserProductDto;
 import ru.kravchenko.hw5.model.entity.UserProduct;
@@ -34,6 +35,13 @@ public class UserProductService {
     public List<UserProductDto> getAllUserProductByUserId(Integer userId) {
         final List<UserProduct> allProductByUserId = userProductDao.getAllProductByUserId(userId);
         return allProductByUserId.stream()
+                .map(UserProductDto::toUserProductDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserProductDto> getAllUserProduct() {
+        log.info("Запрос в БД всех продуктов");
+        return userProductDao.getAllUserProduct().stream()
                 .map(UserProductDto::toUserProductDto)
                 .collect(Collectors.toList());
     }

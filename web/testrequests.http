@@ -1,19 +1,22 @@
-POST http://localhost:8080/api/v1/createProduct
+POST http://localhost:8080/api/v1
 Content-Type: application/json
 
 {
-  "id": 4,
+  "id": 6,
   "userId": 3,
-  "count": 654654,
-  "balance": 600000,
+  "count": 123464,
+  "balance": 5000,
   "type": "INVOICE"
 }
 
 
 ###
-GET http://localhost:8080/api/v1/getProductById?id=3
+GET http://localhost:8080/api/v1/product/3
 
 ###
 GET http://localhost:8080/api/v1/getAllProductByUserId?userId=3
+
+###
+GET http://localhost:8080/api/v1/getAllProductByUserId
 
 

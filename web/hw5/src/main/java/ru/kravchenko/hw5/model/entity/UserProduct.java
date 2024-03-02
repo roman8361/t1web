@@ -3,17 +3,19 @@ package ru.kravchenko.hw5.model.entity;
 
 import ru.kravchenko.hw5.model.dto.UserProductDto;
 
+import java.math.BigDecimal;
+
 public class UserProduct {
     private Integer id;
     private Integer userId;
     private Integer count;
-    private Integer balance;
+    private BigDecimal balance;
     private String type;
 
     public UserProduct() {
     }
 
-    public UserProduct(Integer id, Integer userId, Integer count, Integer balance, String type) {
+    public UserProduct(Integer id, Integer userId, Integer count, BigDecimal balance, String type) {
         this.id = id;
         this.userId = userId;
         this.count = count;
@@ -45,11 +47,11 @@ public class UserProduct {
         this.count = count;
     }
 
-    public Integer getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

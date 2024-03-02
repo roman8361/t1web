@@ -2,14 +2,16 @@ package ru.kravchenko.hw5.model.dto;
 
 import ru.kravchenko.hw5.model.entity.UserProduct;
 
+import java.math.BigDecimal;
+
 public class UserProductDto {
     private Integer id;
     private Integer userId;
     private Integer count;
-    private Integer balance;
+    private BigDecimal balance;
     private Type type;
 
-    public UserProductDto(Integer id, Integer userId, Integer count, Integer balance, Type type) {
+    public UserProductDto(Integer id, Integer userId, Integer count, BigDecimal balance, Type type) {
         this.id = id;
         this.userId = userId;
         this.count = count;
@@ -37,11 +39,11 @@ public class UserProductDto {
         this.count = count;
     }
 
-    public Integer getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

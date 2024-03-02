@@ -17,26 +17,27 @@ public class UserProductController {
     private final UserProductService userProductService;
 
     @Autowired
-    public UserProductController(UserProductService userProductDao) {
-        this.userProductService = userProductDao;
+    public UserProductController(UserProductService userProductService) {
+        this.userProductService = userProductService;
     }
 
-    @PostMapping("/createProduct")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public void creatProduct(@RequestBody UserProductDto dto) {
         log.info("Получен запрос на создание продукта: {} для пользователя с id: ", dto.getType(), dto.getUserId());
         userProductService.createProduct(dto);
     }
 
-    @GetMapping("/getProductById")
-    public UserProductDto getUserProductByUserId(@RequestParam Integer id) {
+    @GetMapping("/product/{id}")
+    public UserProductDto getProductById(@PathVariable int id) {
         log.info("Получен запрос продукта по id {}: ", id);
-        return userProductService.getUserProductById(Long.valueOf(id));
+        return userProductService.getUserProductById((long) id);
     }
 
     @GetMapping("/getAllProductByUserId")
-    public List<UserProductDto> getAllUserProductByUserId(@RequestParam Integer userId) {
+    public List<UserProductDto> getAllUserProductByUserId(@RequestParam(required = false) Integer userId) {
         log.info("Получен запрос продуктов для пользователя с id {}: ", userId);
-        return userProductService.getAllUserProductByUserId(userId);
+        return userId == null
+                ? userProductService.getAllUserProduct() : userProductService.getAllUserProductByUserId(userId);
     }
 }

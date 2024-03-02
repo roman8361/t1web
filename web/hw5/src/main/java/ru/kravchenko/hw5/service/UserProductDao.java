@@ -32,4 +32,9 @@ public class UserProductDao {
         String sql = "SELECT * FROM user_product where user_id = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(UserProduct.class));
     }
+
+    public List<UserProduct> getAllUserProduct() {
+        String sql = "SELECT * FROM user_product ";
+        return jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper<>(UserProduct.class));
+    }
 }
