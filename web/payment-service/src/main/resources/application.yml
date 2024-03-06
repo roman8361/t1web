@@ -1,0 +1,8 @@
+server:
+  port : 8082
+
+integrations:
+  client:
+    url: "http://localhost:8081/api/v1"
+    connect-timeout: 1s
+    read-timeout: 30s
