@@ -24,7 +24,7 @@ POST http://localhost:8082/api/v1/product
 Content-Type: application/json
 
 {
-  "id": 3,
+  "id": 7,
   "code": "EXAMPLE"
 }
 

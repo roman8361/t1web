@@ -32,7 +32,11 @@ public class UserProductService {
     public UserProductDto getUserProductById(Long id) {
         return userProductRepository.findById(id)
                 .map(UserProductDto::entityToDto)
-                .orElseThrow(() -> new ResourceNotFoundException("UserProduct с id: " + id + " не найден"));
+                .orElseThrow(() -> {
+                            log.error("UserProduct с id: {} не найден", id);
+                            return new ResourceNotFoundException("UserProduct с id: " + id + " не найден");
+                        }
+                );
     }
 
     public List<UserProductDto> getAllUserProductByUserId(Integer userId) {

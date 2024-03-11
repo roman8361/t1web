@@ -13,9 +13,6 @@ public class UserProductEntity {
     private Integer count;
     private BigDecimal balance;
     private String type;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private UserEntity userEntity;
 
     public UserProductEntity(Integer id, Integer userId, Integer count, BigDecimal balance, String type) {
         this.id = id;

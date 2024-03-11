@@ -4,7 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.kravchenko.hw5.exception.ResourceNotFoundException;
+import ru.kravchenko.hw5.model.dto.ErrorDto;
 import ru.kravchenko.hw5.model.dto.UserProductDto;
 import ru.kravchenko.hw5.service.UserProductService;
 
@@ -39,5 +42,10 @@ public class UserProductController {
         log.info("Получен запрос продуктов для пользователя с id {}: ", userId);
         return userId == null
                 ? userProductService.getAllUserProduct() : userProductService.getAllUserProductByUserId(userId);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleResourceNotFoundException(ResourceNotFoundException e) {
+        return new ResponseEntity<>(new ErrorDto("RESOURCE_NOT_FOUND", e.getMessage()), HttpStatus.NOT_FOUND);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
-import ru.kravchenko.paymentservice.exception.IntegrationException;
+import ru.kravchenko.paymentservice.exception.RestTemplateResponseErrorHandler;
 import ru.kravchenko.paymentservice.model.rest.RequestDto;
 import ru.kravchenko.paymentservice.model.rest.ResponseDto;
 
@@ -16,23 +16,21 @@ public class ProductServiceRestClient {
     @Value("${integrations.client.url}")
     private String base;
     private final RestTemplate restTemplate;
+    private final RestTemplateResponseErrorHandler errorHandler;
 
-    public ProductServiceRestClient(RestTemplate oldRestTemplate) {
+    public ProductServiceRestClient(RestTemplate oldRestTemplate, RestTemplateResponseErrorHandler errorHandler) {
         this.restTemplate = oldRestTemplate;
+        this.errorHandler = errorHandler;
     }
 
     public ResponseDto findProduct(RequestDto request) {
         RestClient restClient = RestClient.create(restTemplate);
-        try {
             final ResponseDto response = restClient.get()
                     .uri(base + "/product/" + request.id())
                     .retrieve()
+                    .onStatus(errorHandler)
                     .body(ResponseDto.class);
             logger.info("response: {}", response);
             return response;
-        } catch (IntegrationException e) {
-            logger.info("error body: {}", e.getIntegrationErrorDto());
-            return null;
-        }
     }
 }
