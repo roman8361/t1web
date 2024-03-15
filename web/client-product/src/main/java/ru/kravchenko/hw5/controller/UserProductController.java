@@ -34,7 +34,7 @@ public class UserProductController {
     @GetMapping("/product/{id}")
     public UserProductDto getProductById(@PathVariable int id) {
         log.info("Получен запрос продукта по id {}: ", id);
-        return userProductService.getUserProductById((long) id);
+        return userProductService.getUserProductById(id);
     }
 
     @GetMapping("/getAllProductByUserId")
@@ -46,6 +46,6 @@ public class UserProductController {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDto> handleResourceNotFoundException(ResourceNotFoundException e) {
-        return new ResponseEntity<>(new ErrorDto("RESOURCE_NOT_FOUND", e.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ErrorDto(e.getCode(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 }

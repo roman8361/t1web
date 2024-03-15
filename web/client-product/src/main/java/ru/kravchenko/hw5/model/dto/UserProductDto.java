@@ -1,7 +1,5 @@
 package ru.kravchenko.hw5.model.dto;
 
-import ru.kravchenko.hw5.model.entity.UserProductEntity;
-
 import java.math.BigDecimal;
 
 public class UserProductDto {
@@ -19,7 +17,7 @@ public class UserProductDto {
         this.type = type;
     }
 
-    enum Type {
+    public enum Type {
         CARD, INVOICE
     }
 
@@ -61,15 +59,6 @@ public class UserProductDto {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public static UserProductDto entityToDto(UserProductEntity entity) {
-        return new UserProductDto(entity.getId(), entity.getUserId(), entity.getCount(), entity.getBalance(),
-                getTypeByStr(entity.getType()));
-    }
-
-    private static Type getTypeByStr(String type) {
-        return type.equals("CARD") ? Type.CARD : Type.INVOICE;
     }
 
     @Override

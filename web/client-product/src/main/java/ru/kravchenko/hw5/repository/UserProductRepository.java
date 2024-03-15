@@ -5,6 +5,6 @@ import ru.kravchenko.hw5.model.entity.UserProductEntity;
 
 import java.util.List;
 
-public interface UserProductRepository extends JpaRepository<UserProductEntity, Long> {
+public interface UserProductRepository extends JpaRepository<UserProductEntity, Integer> {
     List<UserProductEntity> findAllByUserId(Integer userId);
 }

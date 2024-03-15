@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kravchenko.hw5.exception.ResourceNotFoundException;
+import ru.kravchenko.hw5.mapper.MapperService;
 import ru.kravchenko.hw5.model.dto.UserProductDto;
 import ru.kravchenko.hw5.model.entity.UserProduct;
 import ru.kravchenko.hw5.model.entity.UserProductEntity;
@@ -29,26 +30,26 @@ public class UserProductService {
         log.info("Продукт {} добавлен в БД для пользователя с id: {}", userProduct.getType(), userProduct.getUserId());
     }
 
-    public UserProductDto getUserProductById(Long id) {
+    public UserProductDto getUserProductById(Integer id) {
         return userProductRepository.findById(id)
-                .map(UserProductDto::entityToDto)
+                .map(MapperService::entityToDto)
                 .orElseThrow(() -> {
                             log.error("UserProduct с id: {} не найден", id);
-                            return new ResourceNotFoundException("UserProduct с id: " + id + " не найден");
+                            return new ResourceNotFoundException("UserProduct с id: " + id + " не найден", "RESOURCE_NOT_FOUND");
                         }
                 );
     }
 
     public List<UserProductDto> getAllUserProductByUserId(Integer userId) {
         return userProductRepository.findAllByUserId(userId).stream()
-                .map(UserProductDto::entityToDto)
+                .map(MapperService::entityToDto)
                 .collect(Collectors.toList());
     }
 
     public List<UserProductDto> getAllUserProduct() {
         log.info("Запрос в БД всех продуктов");
         return userProductRepository.findAll().stream()
-                .map(UserProductDto::entityToDto)
+                .map(MapperService::entityToDto)
                 .collect(Collectors.toList());
     }
 }
