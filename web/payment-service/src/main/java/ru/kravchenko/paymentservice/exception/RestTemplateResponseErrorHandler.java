@@ -25,7 +25,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
             ObjectMapper objectMapper = new ObjectMapper();
             IntegrationErrorDto integrationErrorDto = objectMapper.readValue(response.getBody(), IntegrationErrorDto.class);
             logger.error(integrationErrorDto.message());
-            throw new IntegrationException(integrationErrorDto.message(), integrationErrorDto);
+            throw new IntegrationException(integrationErrorDto.message(), integrationErrorDto.code());
         }
         if (response.getStatusCode().is5xxServerError()) {
             ObjectMapper objectMapper = new ObjectMapper();

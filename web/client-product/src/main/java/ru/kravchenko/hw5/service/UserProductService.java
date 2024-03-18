@@ -5,14 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kravchenko.hw5.exception.ResourceNotFoundException;
+import ru.kravchenko.hw5.exception.ValidateBalanceException;
 import ru.kravchenko.hw5.mapper.MapperService;
 import ru.kravchenko.hw5.model.dto.UserProductDto;
 import ru.kravchenko.hw5.model.entity.UserProduct;
 import ru.kravchenko.hw5.model.entity.UserProductEntity;
 import ru.kravchenko.hw5.repository.UserProductRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ru.kravchenko.hw5.util.Constant.RESOURCE_NOT_FOUND;
+import static ru.kravchenko.hw5.util.Constant.SUBZERO_BALANCE;
 
 @Service
 public class UserProductService {
@@ -35,7 +40,7 @@ public class UserProductService {
                 .map(MapperService::entityToDto)
                 .orElseThrow(() -> {
                             log.error("UserProduct с id: {} не найден", id);
-                            return new ResourceNotFoundException("UserProduct с id: " + id + " не найден", "RESOURCE_NOT_FOUND");
+                            return new ResourceNotFoundException("UserProduct с id: " + id + " не найден", RESOURCE_NOT_FOUND);
                         }
                 );
     }
@@ -51,5 +56,18 @@ public class UserProductService {
         return userProductRepository.findAll().stream()
                 .map(MapperService::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    public String checkProduct(Integer userId, String type) {
+        return userProductRepository.findAllByUserIdAndType(userId, type).stream()
+                .findFirst()
+                .map(product -> {
+                    if (product.getBalance().compareTo(BigDecimal.ZERO) > 0) {
+                        return "[OK]";
+                    } else {
+                        throw new ValidateBalanceException("Баланс меньше нуля", SUBZERO_BALANCE);
+                    }
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("По Вашему запросу ни чего не найдено", RESOURCE_NOT_FOUND));
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kravchenko.hw5.exception.ResourceNotFoundException;
+import ru.kravchenko.hw5.exception.ValidateBalanceException;
 import ru.kravchenko.hw5.model.dto.ErrorDto;
 import ru.kravchenko.hw5.model.dto.UserProductDto;
 import ru.kravchenko.hw5.service.UserProductService;
@@ -32,20 +33,31 @@ public class UserProductController {
     }
 
     @GetMapping("/product/{id}")
-    public UserProductDto getProductById(@PathVariable int id) {
-        log.info("Получен запрос продукта по id {}: ", id);
+    public UserProductDto getProductById(@RequestHeader("USERID") String userId, @PathVariable int id) {
+        log.info("Получен запрос продукта по idЖ {} для пользователя с USERID: {}", id, userId);
         return userProductService.getUserProductById(id);
     }
 
     @GetMapping("/getAllProductByUserId")
     public List<UserProductDto> getAllUserProductByUserId(@RequestParam(required = false) Integer userId) {
-        log.info("Получен запрос продуктов для пользователя с id {}: ", userId);
+        log.info("Получен запрос продуктов для пользователя с id: {} ", userId);
         return userId == null
                 ? userProductService.getAllUserProduct() : userProductService.getAllUserProductByUserId(userId);
+    }
+
+    @GetMapping("/checkProduct")
+    public String checkProduct(@RequestHeader("USERID") String userId, @RequestParam String type) {
+        log.info("Пользователь с USERID: {} запросил проверку продукта {}", userId, type);
+        return userProductService.checkProduct(Integer.valueOf(userId) ,type);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDto> handleResourceNotFoundException(ResourceNotFoundException e) {
         return new ResponseEntity<>(new ErrorDto(e.getCode(), e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ValidateBalanceException.class)
+    public ResponseEntity<ErrorDto> handleValidateBalanceException(ValidateBalanceException e) {
+        return new ResponseEntity<>(new ErrorDto(e.getCode(), e.getMessage()), HttpStatus.CONFLICT);
     }
 }

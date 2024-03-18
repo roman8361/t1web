@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface UserProductRepository extends JpaRepository<UserProductEntity, Integer> {
     List<UserProductEntity> findAllByUserId(Integer userId);
+
+    List<UserProductEntity> findAllByUserIdAndType(Integer userId, String type);
 }

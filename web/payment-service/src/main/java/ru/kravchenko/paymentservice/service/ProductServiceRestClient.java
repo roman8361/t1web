@@ -15,22 +15,33 @@ public class ProductServiceRestClient {
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceRestClient.class.getName());
     @Value("${integrations.client.url}")
     private String base;
-    private final RestTemplate restTemplate;
+    private final RestClient restClient;
     private final RestTemplateResponseErrorHandler errorHandler;
 
     public ProductServiceRestClient(RestTemplate oldRestTemplate, RestTemplateResponseErrorHandler errorHandler) {
-        this.restTemplate = oldRestTemplate;
         this.errorHandler = errorHandler;
+        this.restClient = RestClient.create(oldRestTemplate);
     }
 
     public ResponseDto findProduct(RequestDto request) {
-        RestClient restClient = RestClient.create(restTemplate);
             final ResponseDto response = restClient.get()
                     .uri(base + "/product/" + request.id())
+                    .header("USERID", "123456")
                     .retrieve()
                     .onStatus(errorHandler)
                     .body(ResponseDto.class);
             logger.info("response: {}", response);
             return response;
+    }
+
+    public String checkProduct(String userId, String type) {
+        final String response = restClient.get()
+                .uri(base + "/checkProduct?type=" + type)
+                .header("USERID", userId)
+                .retrieve()
+                .onStatus(errorHandler)
+                .body(String.class);
+        logger.info("response: {}", response);
+        return response;
     }
 }
