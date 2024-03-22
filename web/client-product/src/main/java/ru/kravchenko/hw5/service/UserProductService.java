@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.kravchenko.hw5.exception.ResourceNotFoundException;
 import ru.kravchenko.hw5.exception.ValidateBalanceException;
 import ru.kravchenko.hw5.mapper.MapperService;
-import ru.kravchenko.hw5.model.dto.UserProductDto;
+import ru.kravchenko.hw5.model.dto.*;
 import ru.kravchenko.hw5.model.entity.UserProduct;
 import ru.kravchenko.hw5.model.entity.UserProductEntity;
 import ru.kravchenko.hw5.repository.UserProductRepository;
@@ -45,25 +45,28 @@ public class UserProductService {
                 );
     }
 
-    public List<UserProductDto> getAllUserProductByUserId(Integer userId) {
-        return userProductRepository.findAllByUserId(userId).stream()
+    public AllProductsDto getAllUserProductByUserId(Integer userId) {
+        final List<UserProductDto> collect = userProductRepository.findAllByUserId(userId).stream()
                 .map(MapperService::entityToDto)
                 .collect(Collectors.toList());
+        return new AllProductsDto(collect);
     }
 
-    public List<UserProductDto> getAllUserProduct() {
+    public AllProductsDto getAllUserProduct() {
         log.info("Запрос в БД всех продуктов");
-        return userProductRepository.findAll().stream()
+        final List<UserProductDto> collect = userProductRepository.findAll().stream()
                 .map(MapperService::entityToDto)
                 .collect(Collectors.toList());
+        return new AllProductsDto(collect);
+
     }
 
-    public Boolean checkProduct(Integer userId, String type) {
+    public CheckResponseDto checkProduct(Integer userId, String type) {
         return userProductRepository.findAllByUserIdAndType(userId, type).stream()
                 .findFirst()
                 .map(product -> {
                     if (product.getBalance().compareTo(BigDecimal.ZERO) > 0) {
-                        return true;
+                        return new CheckResponseDto(true);
                     } else {
                         throw new ValidateBalanceException("Баланс меньше нуля", SUBZERO_BALANCE);
                     }

@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 import ru.kravchenko.paymentservice.exception.RestTemplateResponseErrorHandler;
-import ru.kravchenko.paymentservice.model.rest.RequestDto;
-import ru.kravchenko.paymentservice.model.rest.ResponseDto;
+import ru.kravchenko.paymentservice.model.rest.*;
 
 @Service
 public class ProductServiceRestClient {
@@ -24,23 +23,23 @@ public class ProductServiceRestClient {
     }
 
     public ResponseDto findProduct(RequestDto request) {
-            final ResponseDto response = restClient.get()
-                    .uri(base + "/product/" + request.id())
-                    .header("USERID", "123456")
-                    .retrieve()
-                    .onStatus(errorHandler)
-                    .body(ResponseDto.class);
-            logger.info("response: {}", response);
-            return response;
+        final ResponseDto response = restClient.get()
+                .uri(base + "/products/" + request.id())
+                .header("USERID", "123456")
+                .retrieve()
+                .onStatus(errorHandler)
+                .body(ResponseDto.class);
+        logger.info("response: {}", response);
+        return response;
     }
 
-    public Boolean checkProduct(String userId, String type) {
-        final Boolean response = restClient.get()
-                .uri(base + "/check?type=" + type)
+    public CheckResponseDto checkProduct(String userId, String type) {
+        final CheckResponseDto response = restClient.get()
+                .uri(base + "/products/check?type=" + type)
                 .header("USERID", userId)
                 .retrieve()
                 .onStatus(errorHandler)
-                .body(Boolean.class);
+                .body(CheckResponseDto.class);
         logger.info("response: {}", response);
         return response;
     }

@@ -1,4 +1,4 @@
-POST http://localhost:8081/api/v1/product
+POST http://localhost:8081/api/v1/products
 Content-Type: application/json
 
 {
@@ -21,7 +21,7 @@ GET http://localhost:8081/api/v1/products
 GET http://localhost:8081/api/v1/products?userId=2
 
 ###
-POST http://localhost:8082/api/v1/product
+POST http://localhost:8082/api/v1/products
 Content-Type: application/json
 
 {
@@ -30,8 +30,8 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8082/api/v1/product/check?type=CARD
+GET http://localhost:8082/api/v1/products/check?type=CARD
 USERID: 2
 ###
-GET http://localhost:8081/api/v1/check?type=CARD
+GET http://localhost:8081/api/v1/products/check?type=CARD
 USERID: 1234555

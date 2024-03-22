@@ -15,6 +15,7 @@ public class RestConfig {
     private Duration connectTimeout;
     @Value("${integrations.client.read-timeout}")
     private Duration readTimeout;
+
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder, RestTemplateResponseErrorHandler errorHandler) {
         return builder
