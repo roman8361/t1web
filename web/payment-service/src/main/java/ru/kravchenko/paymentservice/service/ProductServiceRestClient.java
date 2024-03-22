@@ -34,13 +34,13 @@ public class ProductServiceRestClient {
             return response;
     }
 
-    public String checkProduct(String userId, String type) {
-        final String response = restClient.get()
-                .uri(base + "/checkProduct?type=" + type)
+    public Boolean checkProduct(String userId, String type) {
+        final Boolean response = restClient.get()
+                .uri(base + "/check?type=" + type)
                 .header("USERID", userId)
                 .retrieve()
                 .onStatus(errorHandler)
-                .body(String.class);
+                .body(Boolean.class);
         logger.info("response: {}", response);
         return response;
     }

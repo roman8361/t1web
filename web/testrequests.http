@@ -1,4 +1,4 @@
-POST http://localhost:8081/api/v1
+POST http://localhost:8081/api/v1/product
 Content-Type: application/json
 
 {
@@ -12,16 +12,13 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8081/api/v1/product/3
+USERID: 2
 
 ###
-GET http://localhost:8081/api/v1/checkProduct?type=CARD
-USERID: 12345655555
+GET http://localhost:8081/api/v1/products
 
 ###
-GET http://localhost:8081/api/v1/getAllProductByUserId?userId=0
-
-###
-GET http://localhost:8081/api/v1/getAllProductByUserId
+GET http://localhost:8081/api/v1/products?userId=2
 
 ###
 POST http://localhost:8082/api/v1/product
@@ -33,6 +30,8 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8082/api/v1/product/checkProduct?type=CARD
+GET http://localhost:8082/api/v1/product/check?type=CARD
 USERID: 2
 ###
+GET http://localhost:8081/api/v1/check?type=CARD
+USERID: 1234555

@@ -58,12 +58,12 @@ public class UserProductService {
                 .collect(Collectors.toList());
     }
 
-    public String checkProduct(Integer userId, String type) {
+    public Boolean checkProduct(Integer userId, String type) {
         return userProductRepository.findAllByUserIdAndType(userId, type).stream()
                 .findFirst()
                 .map(product -> {
                     if (product.getBalance().compareTo(BigDecimal.ZERO) > 0) {
-                        return "[OK]";
+                        return true;
                     } else {
                         throw new ValidateBalanceException("Баланс меньше нуля", SUBZERO_BALANCE);
                     }

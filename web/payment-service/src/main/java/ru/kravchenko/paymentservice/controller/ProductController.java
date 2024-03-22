@@ -23,8 +23,8 @@ public class ProductController {
         return restClient.findProduct(requestDto);
     }
 
-    @GetMapping("/checkProduct")
-    public String checkProduct(@RequestHeader("USERID") String userId, @RequestParam String type) {
+    @GetMapping("/check")
+    public Boolean checkProduct(@RequestHeader("USERID") String userId, @RequestParam String type) {
         logger.info("Получен запрос на  проверку продукта по типу: {}", type);
         return restClient.checkProduct(userId, type);
     }
